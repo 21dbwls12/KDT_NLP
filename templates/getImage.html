@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <form method="post" action="{% url 'getImage' %}">
+        {% csrf_token %}
+        <label for="user_input">제시어 입력:</label>
+        <p></p>
+        <!--<input type="text" name="user_input"  id="user_input" required>-->
+        <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
+        <p></p>
+        <button type="submit">전송</button>
+    </form>
+    <div>
+        <div>
+            <h5>
+                {% if Data %}
+                <img src="{{Data}}" alt="Dall-e image">
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+</body>
+{% endblock content %}
