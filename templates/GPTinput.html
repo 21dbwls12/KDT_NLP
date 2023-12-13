@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
+<style>
+    .sendbutton {
+        background-color: rgb(255, 255, 255);
+        color: rgb(11, 11, 11);
+        border: none;
+        border-color: rgb(225, 225, 225);
+        font-size: 20px; /* 글꼴 크기 변경 */
+        padding: 15px 25px; /* 패딩 */
+        text-align: center; 
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.1); /* 그림자 추가 */
+        border-radius: 5px;
+    }
+
+    .sendbutton:hover {
+        background-color: white; 
+        color: black; 
+        border: 2px solid rgb(95, 205, 217);
+        scale: 1.1;
+    }
+</style>
 {% load static %}
 {% block content %}
 <body>
     <div style="position: fixed; right: 0; top: 0; height: 50px;">
         <audio controls autoplay loop id="audio_player">
-            <source src="{% static 'horror/slienthill_bgm.wav' %}" type="audio/mpeg">
         </audio>
     </div>
 
-    <form method="post" action="{% url 'gamepage' %}">
-        {% csrf_token %}
-        <label for="user_input">질문 입력:</label>
-        <p></p>
-        <!--<input type="text" name="user_input"  id="user_input" required>-->
-        <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
-        <button type="submit">전송</button>
-    </form>
     <div>
         <div>
             <h5>
@@ -24,6 +40,16 @@
             </h5>
         </div>
     </div>
+
+    <form method="post" action="{% url 'gamepage' %}" style="position: fixed; bottom: 5%; justify-content: center; align-items: center;">
+        {% csrf_token %}
+        <label for="user_input"></label>
+        <p></p>
+        <!--<input type="text" name="user_input"  id="user_input" required>-->
+        <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
+        <button type="submit" class="sendbutton">전송</button>
+    </form>
+    
     
     <script>
         // 오디오 파일의 URL을 배열에 추가합니다.

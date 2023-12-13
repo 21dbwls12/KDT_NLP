@@ -19,16 +19,18 @@ from django.urls import path, include
 from django.shortcuts import render
 
 from Game import views
-
+from mysite import views
 
 def home(request):
+    #
     return render(request, "index.html")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # game/을 주소에 붙이면 game.urls참조
     path("game/", include("Game.urls")),
-    path('getImage/', views.getImagepage, name='getImage'),
+    # path('getImage/', views.getImagepage, name='getImage'),
+    path('create_thread', views.create_thread, name='create_thread'),
     # 초기화면
     path("", home)
 ]

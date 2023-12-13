@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .view-more-btn {
+            /* 버튼 스타일링 */
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 버튼에 마우스를 올렸을 때의 스타일 */
+        .view-more-btn:hover {
+            background-color: #45a049;
+        }
+
+        .square {
+            width: 100px; /* 사각형의 가로 크기 */
+            height: 100px; /* 사각형의 세로 크기 */
+            background-color: yellow; /* 사각형의 배경색 */
+            margin: 10px; /* 주변과의 여백 */
+            /* 사각형에 텍스트를 추가하고 싶다면 text-align과 line-height를 사용할 수 있습니다. */
+            display: flex; /* Flexbox를 사용해 내부 내용을 중앙에 배치합니다. */
+            justify-content: center; /* 가로 방향 중앙 정렬 */
+            align-items: center; /* 세로 방향 중앙 정렬 */
+        }
+
+        .red-square {
+            width: 100px; /* 사각형의 가로 크기 */
+            height: 100px; /* 사각형의 세로 크기 */
+            background-color: red; /* 사각형의 배경색 */
+            margin: 10px; /* 주변과의 여백 */
+            /* 사각형에 텍스트를 추가하고 싶다면 text-align과 line-height를 사용할 수 있습니다. */
+            display: flex; /* Flexbox를 사용해 내부 내용을 중앙에 배치합니다. */
+            justify-content: center; /* 가로 방향 중앙 정렬 */
+            align-items: center; /* 세로 방향 중앙 정렬 */
+        }
+
+        .square-text {
+            margin-top: 5px; /* 사각형과 텍스트 사이의 여백을 조정합니다. */
+            text-align: center; /* 텍스트를 중앙에 배치합니다. */
+        }
+
+        .square-container {
+            display: block;
+            justify-content: center; /* 컨테이너 사이의 공간을 균등하게 분배 */
+        }
+
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+    </style>
+</head>
+
+<body>
+{% block content %}
+
+
+
+<div class="my-cat">
+    <section class="square-container">
+            <div class="square">head</div>
+            <div class="square-text" style="position: absolute; bottom: 80px;">{{Person1}}</div>
+    </section>
+    <section class="square-container">
+            <div class="square"></div>
+            <div class="square-text" style="display: inline-block; position: absolute;">{{Person2}}</div>
+    </section>
+    <section class="square-container">
+            <a class="square"></a>
+            <a class="square-text">{{Person3}}</a>
+    </section>
+    <a href="http://localhost:8000/game/fortest" class="view-more-btn">View More</a>
+</div>
+
+<div class="my-cat">
+    <div class="square-container">
+        <div class="red-square"></div>
+        <div class="square-text">{{Person1}}</div>
+    </div>
+    <div class="square-container">
+        <div class="red-square"></div>
+        <div class="square-text">{{Person2}}</div>
+    </div>
+    <div class="square-container">
+        <div class="red-square"></div>
+        <div class="square-text">{{Person3}}</div>
+    </div>
+    <a href="http://localhost:8000/game/datatest" class="view-more-btn">View More</a>
+</div>
+{% endblock content %}
+</body>
+</html>

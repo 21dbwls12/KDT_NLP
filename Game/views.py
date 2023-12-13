@@ -4,7 +4,6 @@ import fopenaiAPI1
 import audioplay
 import os
 from django.conf import settings
-from django.shortcuts import render
 
 def gamepage(request):
     if request.method == "POST":
@@ -46,3 +45,8 @@ def mediatest(request):
     lst1 =['banana', 'apple', 'orange']
     context = {'Person1':'설렁탕', 'Person2':'비빔밥', 'Person3':lst1}
     return render(request, "mediatest.html", context)
+
+def category(request):
+    lst1 =['banana', 'apple', 'orange']
+    context = {'Person1':'설렁탕', 'Person2':'비빔밥', 'Person3':'볶음우동'}
+    return render(request, "category.html", context)
