@@ -3,10 +3,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
 
-client = OpenAI(api_key = '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')
+load_dotenv()
 
-tour_assistant_id = 'asst_oNUB5hmnoXW47uv9kqpo5YSd'
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+tour_assistant_id = os.getenv('TOUR_ASSISTANT_ID')
 TOUR_ASSISTANT_ID = tour_assistant_id
 
 @csrf_exempt

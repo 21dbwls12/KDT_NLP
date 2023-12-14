@@ -1,5 +1,5 @@
 /* Reset default browser styles */
-body, header, nav, my-cat, ul, li, a, button{
+body, header, nav, ul, li, a{
     margin: 0;
     padding: 0;
     list-style: none;
@@ -20,13 +20,6 @@ nav {
     height: 60px;
 }
 
-my-cat{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
 ul {
     display: flex;
 }
@@ -41,28 +34,4 @@ a {
 
 a:hover {
     color: #ccc;
-}
-
-button {
-    background-color: rgb(255, 255, 255);
-    color: rgb(11, 11, 11);
-    border: none;
-    border-color: rgb(225, 225, 225);
-    font-size: 20px; /* 글꼴 크기 변경 */
-    padding: 15px 25px; /* 패딩 */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.1); /* 그림자 추가 */
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: white; 
-    color: black; 
-    border: 2px solid rgb(95, 205, 217);
-    scale: 1.1;
 }

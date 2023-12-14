@@ -1,53 +1,83 @@
-{% extends 'base.html' %}
-<style>
-    .sendbutton {
-        background-color: rgb(255, 255, 255);
-        color: rgb(11, 11, 11);
-        border: none;
-        border-color: rgb(225, 225, 225);
-        font-size: 20px; /* 글꼴 크기 변경 */
-        padding: 15px 25px; /* 패딩 */
-        text-align: center; 
-        text-decoration: none;
-        display: inline-block;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.1); /* 그림자 추가 */
-        border-radius: 5px;
-    }
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 반응형 웹페이지를 위한 viewport 설정 -->
+        <style>
+            button {
+                background-color: rgb(255, 255, 255);
+                color: rgb(11, 11, 11);
+                border: none;
+                border-color: rgb(225, 225, 225);
+                font-size: 20px; /* 글꼴 크기 변경 */
+                padding: 15px 25px; /* 패딩 */
+                text-align: center; 
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.1); /* 그림자 추가 */
+                border-radius: 5px;
+            }
 
-    .sendbutton:hover {
-        background-color: white; 
-        color: black; 
-        border: 2px solid rgb(95, 205, 217);
-        scale: 1.1;
-    }
-</style>
+            button:hover {
+                background-color: white; 
+                color: black; 
+                border: 2px solid rgb(95, 205, 217);
+                scale: 1.1;
+            }
+            .output_container {
+                width: 100%;
+                height: 60%;
+                border: 1% solid rgb(95, 205, 217);
+                background-color: aquamarine;
+            }
+        </style>
+</head>
 {% load static %}
 {% block content %}
 <body>
+    <h1>방탈출 게임</h1>
+    <p>시작하시려면 "시작"을 입력해주세요.</p>
     <div style="position: fixed; right: 0; top: 0; height: 50px;">
         <audio controls autoplay loop id="audio_player">
         </audio>
     </div>
 
-    <div>
-        <div>
+    <div style="height: 60%;">
+        <div class="output_container" style="bottom: -300px; overflow: scroll; height: 500px;">
             <h5>
-                <p>{{user_input}}</p>
-                {{Data}}
+                <!-- <p>{{user_input}}</p> -->
+                {% for threadmessage in Data %}
+                    {% if forloop.counter|divisibleby:2 %}
+                        HOST: {{ threadmessage }}<br>
+                        <br>
+                    {% else %}
+                        YOU: {{ threadmessage }}<br>
+                        <br>
+                    {% endif %}
+                    <!-- {{threadmessage}}
+                    <br> -->
+                {% endfor %}
             </h5>
         </div>
+
     </div>
 
-    <form method="post" action="{% url 'gamepage' %}" style="position: fixed; bottom: 5%; justify-content: center; align-items: center;">
+
+
+
+
+
+
+
+    <form method="post" action="{% url 'gamepage' %}" style="position: fixed; bottom: 0; justify-content: center; align-items: center;">
         {% csrf_token %}
         <label for="user_input"></label>
         <p></p>
         <!--<input type="text" name="user_input"  id="user_input" required>-->
         <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
-        <button type="submit" class="sendbutton">전송</button>
+        <button type="submit">전송</button>
     </form>
     
     
@@ -73,3 +103,4 @@
     </script>
 </body>
 {% endblock content %}
+</html>
