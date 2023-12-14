@@ -4,9 +4,9 @@ from django.views.decorators.http import require_POST
 from openai import OpenAI
 import os
 
-client = OpenAI(api_key = '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')
+client = OpenAI(api_key = 'your api key')
 
-tour_assistant_id = 'asst_oNUB5hmnoXW47uv9kqpo5YSd'
+tour_assistant_id = 'your id'
 TOUR_ASSISTANT_ID = tour_assistant_id
 
 @csrf_exempt
