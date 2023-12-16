@@ -16,8 +16,19 @@ TOUR_ASSISTANT_ID = tour_assistant_id
 @require_POST
 def create_thread(request):
     user_input = request.POST.get('user_input')
+    # print(user_input)
     thread = client.beta.threads.create()
-    file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'escapegame_test.txt')
-    with open(file_path, 'w') as file:
-        file.write(str(thread.id))
-    return thread.id
+    # request.session['game name'] = user_input
+    # request.session.save()
+    thread_id = thread.id
+    request.session['openai_thread_id'] = thread_id
+    threadsession = request.session.get('openai_thread_id', 'cannot find thread id')
+    print('Saved data', threadsession)
+    # print(thread_id)
+    # print(thread.id)
+    # file_name = f'{user_input}.txt'
+    # file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads',f'{thread.id} .txt')
+    # file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'turtlesoupgame.txt')
+    # with open(file_path, 'w') as file:
+    #     file.write(str(thread.id))
+    # return thread.id

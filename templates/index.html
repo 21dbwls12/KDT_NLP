@@ -29,11 +29,16 @@
     <head>Main Page</head>
     <body style="text-align: center; margin-top: 40px;">
         <p>You are at the Main Page</p>
-        <a href="http://localhost:8000/game/" class="button" style="margin-top: 10px;">컨텐츠 둘러보기</a>
-        <a href="http://localhost:8000/game/" id="testButton" class="button" style="margin-top: 10px;">테스트용</a>
+        <a href="http://localhost:8000/game/" class="button" style="margin-top: 10px;">방탈출게임 이어하기</a>
+        <a href="http://localhost:8000/game/" id="escape-button" class="button" style="margin-top: 10px;">방탈출게임 시작하기</a>
+        <p>---------------------------------------------------------------------------------------------------------</p>
+        <a href="http://localhost:8000/game/" class="button" style="margin-top: 10px;">바다거북이스푸게임 이어하기</a>
+        <a href="http://localhost:8000/game/" id="turtlesoup-button" class="button" style="margin-top: 10px;">바다거북이스푸게임 시작하기</a>
+        <!-- <a href="http://192.168.1.98:8000/game/" class="button" style="margin-top: 10px;">컨텐츠 둘러보기</a>
+        <a href="http://192.168.1.98:8000/game/" id="testButton" class="button" style="margin-top: 10px;">테스트용</a> -->
     
         <script>
-            document.querySelector('#testButton').addEventListener('click', function() {
+            document.querySelector('#escape-button').addEventListener('click', function() {
                 var user_input = 'Button clicked'; // 사용자 입력을 가져옵니다.
                 fetch('/create_thread', { // '/run_thread'는 서버에서 `create_thread_and_run` 함수를 실행하는 라우트입니다.
                     method: 'POST',
@@ -48,7 +53,23 @@
                     console.error('Error:', error);
                 });
             });
-            </script>
+        
+            document.querySelector('#turtlesoup-button').addEventListener('click', function() {
+                var user_input = 'Button clicked'; // 사용자 입력을 가져옵니다.
+                fetch('/create_thread', { // '/run_thread'는 서버에서 `create_thread_and_run` 함수를 실행하는 라우트입니다.
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({user_input: user_input}),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
 
     </body>
 </html>

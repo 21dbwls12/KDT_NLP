@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-n@&vp561(=#k$=69kpk$g4uzu*$6=w__s1*#r6tfk&q)z8dijm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['192.168.1.98']
 ALLOWED_HOSTS = []
 
 
@@ -80,7 +81,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -125,3 +125,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# APPEND_SLASH=False

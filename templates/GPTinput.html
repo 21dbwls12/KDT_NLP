@@ -30,9 +30,37 @@
                 width: 100%;
                 height: 60%;
                 border: 1% solid rgb(95, 205, 217);
-                background-color: aquamarine;
+            }
+
+            .user-text {
+                font-weight: bold;
+            }
+            
+            .host-text {
+                font-weight: medium;
+            }
+            @keyframes slideDownUp {
+                0% {
+                    top: -50%;
+                }
+                100% {
+                    top: 13%;
+                }
+            }
+            #loading {
+                position: absolute;
+                top: -50%;  /* 버튼 위에 위치 */
+                left: 50%; /* 페이지 중앙에 위치 */
+                transform: translate(-50%, -50%); /* 위치 조정 */
+                display: none; /* 기본적으로 숨김 */
+                animation: slideDownUp 2s ease-in-out; /* 애니메이션 적용 */
             }
         </style>
+        <script>
+            function showLoading() {
+                document.getElementById('loading').style.display = 'block';
+            }
+        </script>
 </head>
 {% load static %}
 {% block content %}
@@ -45,39 +73,32 @@
     </div>
 
     <div style="height: 60%;">
-        <div class="output_container" style="bottom: -300px; overflow: scroll; height: 500px;">
-            <h5>
+        <div class="output_container" id="output_container" style="bottom: -300px; overflow: scroll; height: 500px;">
+            <div>
                 <!-- <p>{{user_input}}</p> -->
                 {% for threadmessage in Data %}
                     {% if forloop.counter|divisibleby:2 %}
-                        HOST: {{ threadmessage }}<br>
+                        HOST: <span class="host-text">{{ threadmessage }}</span><br>
                         <br>
                     {% else %}
-                        YOU: {{ threadmessage }}<br>
+                        YOU: <span class="user-text"> {{threadmessage }}</span><br>
                         <br>
                     {% endif %}
                     <!-- {{threadmessage}}
                     <br> -->
                 {% endfor %}
-            </h5>
+                <!-- {{New}} -->
+            </div>
         </div>
-
     </div>
 
-
-
-
-
-
-
-
-    <form method="post" action="{% url 'gamepage' %}" style="position: fixed; bottom: 0; justify-content: center; align-items: center;">
+    <form id="inputForm" method="post" action="{% url 'gamepage' %}" autocomplete="off" style="position: fixed; bottom: 0; justify-content: center; align-items: center;" onsubmit="showLoading()">
         {% csrf_token %}
         <label for="user_input"></label>
         <p></p>
         <!--<input type="text" name="user_input"  id="user_input" required>-->
         <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
-        <button type="submit">전송</button>
+        <button id="send_button" type="submit">전송</button>
     </form>
     
     
@@ -99,8 +120,92 @@
 
             // 오디오를 재생합니다.
             audioPlayer.play();
+
+            var container = document.getElementById("output_container");
+            container.scrollTop = container.scrollHeight;
         };
+
+        document.getElementById('inputForm').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // Enter 키의 기본 동작을 막음
+                this.submit();  // form을 제출
+            }
+        });
+
+        // document.getElementById('send_button').addEventListener('click', function() {
+        //     fetch(`/get_new_messages/${assistantId}/`)
+        //         .then(response => response.json())
+        //         .then(newMessages => {
+        //             newMessages.forEach(message => {
+        //                 // 새로운 메시지 요소를 생성합니다.
+        //                 var newMessageElement = document.createElement('div');
+        //                 var messageText;
+
+        //                 // 메시지가 사용자의 메시지인지 호스트의 메시지인지를 결정합니다.
+        //                 if (message.id % 2 === 0) {
+        //                     messageText = `HOST: <span class="host-text">${message.content}</span><br><br>`;
+        //                 } else {
+        //                     messageText = `YOU: <span class="user-text">${message.content}</span><br><br>`;
+        //                 }
+
+        //                 // 메시지 요소에 메시지 텍스트를 설정합니다.
+        //                 newMessageElement.innerHTML = messageText;
+
+        //                 // 메시지 요소를 페이지에 추가합니다.
+        //                 document.getElementById('message_container').appendChild(newMessageElement);
+
+        //                 if (message.id > lastMessageId) {
+        //                     lastMessageId = message.id;
+        //                 }
+        //             });
+        //         });
+        // });
+
+        // document.getElementById('inputForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();  // form의 기본 동작을 막음
+
+        //     var user_input = document.getElementById('user_input').value;
+
+        //     fetch("{% url 'gamepage' %}", {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        //         },
+        //         body: JSON.stringify({user_input: user_input}),
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         data.forEach(message => {
+        //             // 새로운 메시지 요소를 생성합니다.
+        //             var newMessageElement = document.createElement('div');
+        //             var messageText;
+
+        //             // 메시지가 사용자의 메시지인지 호스트의 메시지인지를 결정합니다.
+        //             if (message.id % 2 === 0) {
+        //                 messageText = `HOST: <span class="host-text">${message.content}</span><br><br>`;
+        //             } else {
+        //                 messageText = `YOU: <span class="user-text">${message.content}</span><br><br>`;
+        //             }
+
+        //             // 메시지 요소에 메시지 텍스트를 설정합니다.
+        //             newMessageElement.innerHTML = messageText;
+
+        //             // 메시지 요소를 페이지에 추가합니다.
+        //             document.getElementById('message_container').appendChild(newMessageElement);
+
+        //             if (message.id > lastMessageId) {
+        //                 lastMessageId = message.id;
+        //             }
+        //         });
+        //     });
+        // });
     </script>
+
+    <div id="loading" style="display:none;">
+        {% load static %}
+        <img src="{% static 'cat_on.gif' %}" alt="Loading..." style="size: 50%;"/>
+    </div>
 </body>
 {% endblock content %}
 </html>

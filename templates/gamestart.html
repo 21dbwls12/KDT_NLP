@@ -1,0 +1,13 @@
+{% extends 'project-base.html' %}
+{% block content %}
+{% load static %}
+    <div style="font-family: Yeongdeok_Sea; display: flex; width: 100vw; height: 100vh;" >
+        <img src="{% static 'startturtle.jpg' %}" alt="turtlesoupstart" class="page" style="object-fit: fill; opacity: 70%;">
+        <div style="position: fixed; right: 0; top: 0;">
+            <audio controls autoplay loop id="audio_player">
+                <source src = "{% static 'underthesea.wav' %}" type="audio/wav">
+            </audio>
+        </div>
+        <button style="position: absolute; bottom: 10%; left: 10%;">게임 시작</button>
+    </div>
+{% endblock content %}

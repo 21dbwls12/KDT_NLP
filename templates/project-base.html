@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+{% load static %}
+    <head>
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'project-style.css' %}">
+
+    </head>
+
+    <body>
+    {% block content %}
+
+    {% endblock content %}
+    {% include "footer.html" %}
+    </body>
+</html>

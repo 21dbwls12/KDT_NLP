@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            button {
+                background-color: rgb(255, 255, 255);
+                color: rgb(11, 11, 11);
+                border: none;
+                border-color: rgb(225, 225, 225);
+                font-size: 20px; /* 글꼴 크기 변경 */
+                padding: 15px 25px; /* 패딩 */
+                text-align: center; 
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.1); /* 그림자 추가 */
+                border-radius: 5px;
+            }
+
+            button:hover {
+                background-color: white; 
+                color: black; 
+                border: 2px solid rgb(95, 205, 217);
+                scale: 1.1;
+            }
+            .output_container {
+                width: 100%;
+                height: 60%;
+                border: 1% solid rgb(95, 205, 217);
+            }
+
+            .user-text {
+                font-weight: medium;
+                background-color: #0D5B8C;
+                justify-content: end;
+                text-align: left;
+                border: none;
+                border-radius: 5%;
+                size: auto;
+                margin: 2%;
+
+            }
+
+            .user-container {
+                font-weight: medium;
+                background-color: #0D5B8C;
+                justify-content: end;
+                text-align: left;
+                border: none;
+                border-radius: 5%;
+                width: auto;
+                max-width: 65%;
+                
+
+            }
+            
+            .host-container {
+                font-weight: medium;
+                background-color: #6ACED9;
+                justify-content: start;
+            }
+
+            .host-text {
+                font-weight: medium;
+                background-color: #6ACED9;
+                justify-content: start;
+            }
+            @keyframes slideDownUp {
+                0% {
+                    top: -50%;
+                }
+                100% {
+                    top: 13%;
+                }
+            }
+            #loading {
+                position: absolute;
+                top: -50%;  /* 버튼 위에 위치 */
+                left: 50%; /* 페이지 중앙에 위치 */
+                transform: translate(-50%, -50%); /* 위치 조정 */
+                display: none; /* 기본적으로 숨김 */
+                animation: slideDownUp 2s ease-in-out; /* 애니메이션 적용 */
+            }
+        </style>
+        <script>
+            function showLoading() {
+                document.getElementById('loading').style.display = 'block';
+            }
+        </script>
+</head>
+{% load static %}
+{% block content %}
+<body>
+    <h1>방탈출 게임</h1>
+    <p>시작하시려면 "시작"을 입력해주세요.</p>
+    <div style="position: fixed; right: 0; top: 0; height: 50px;">
+        <audio controls autoplay loop id="audio_player">
+        </audio>
+    </div>
+
+    <div style="height: 60%;">
+        <div class="output_container" id="output_container" style="bottom: -300px; overflow: scroll; height: 500px;">
+            <div>
+                <!-- <p>{{user_input}}</p> -->
+                {% for threadmessage in Data %}
+                    {% if forloop.counter|divisibleby:2 %}
+                        <div class="host-container">
+                            <span class="host-text">{{ threadmessage }}</span><br>
+                        </div>
+                    {% else %}
+                        <div class="user-container">
+                            <span class="user-text"> {{threadmessage }}</span><br>
+                        </div>
+                    {% endif %}
+                    <!-- {{threadmessage}}
+                    <br> -->
+                {% endfor %}
+                <!-- {{New}} -->
+            </div>
+        </div>
+    </div>
+
+    <form id="inputForm" method="post" action="{% url 'gamepage' %}" autocomplete="off" style="position: fixed; bottom: 0; justify-content: center; align-items: center;" onsubmit="showLoading()">
+        {% csrf_token %}
+        <label for="user_input"></label>
+        <p></p>
+        <!--<input type="text" name="user_input"  id="user_input" required>-->
+        <textarea name="user_input" id="user_input" rows="5" cols="100" required></textarea>
+        <button id="send_button" type="submit">전송</button>
+    </form>
+    
+    
+    <script>
+        // 오디오 파일의 URL을 배열에 추가합니다.
+        var audioFiles = [
+            "{% static 'horror/slienthill_bgm.wav' %}",
+            "{% static 'horror/hideandseek_mr_orgelvr.wav' %}",
+        ];
+
+        window.onload = function() {
+            // 배열에서 랜덤으로 URL을 선택합니다.
+            var randomIndex = Math.floor(Math.random() * audioFiles.length);
+            var randomAudioFile = audioFiles[randomIndex];
+
+            // 오디오 플레이어의 source를 랜덤으로 선택한 URL로 설정합니다.
+            var audioPlayer = document.getElementById('audio_player');
+            audioPlayer.src = randomAudioFile;
+
+            // 오디오를 재생합니다.
+            audioPlayer.play();
+
+            var container = document.getElementById("output_container");
+            container.scrollTop = container.scrollHeight;
+        };
+
+        document.getElementById('inputForm').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // Enter 키의 기본 동작을 막음
+                this.submit();  // form을 제출
+            }
+        });
+    </script>
+
+    <div id="loading" style="display:none;">
+        {% load static %}
+        <img src="{% static 'cat_on.gif' %}" alt="Loading..." style="size: 50%;"/>
+    </div>
+</body>
+{% endblock content %}
+</html>
