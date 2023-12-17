@@ -41,7 +41,7 @@ urlpatterns = [
     # game/을 주소에 붙이면 game.urls참조
     path("game/", include("Game.urls")),
     # path('getImage/', views.getImagepage, name='getImage'),
-    path('create_thread', views.create_thread, name='create_thread'),
+    # path('create_thread', views.create_thread, name='create_thread'),
     re_path(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 
     # 초기화면

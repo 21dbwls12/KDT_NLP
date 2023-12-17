@@ -9,13 +9,62 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
-tour_assistant_id = os.getenv('TOUR_ASSISTANT_ID')
-TOUR_ASSISTANT_ID = tour_assistant_id
+turtle_assistant_id = os.getenv('TURTLE_ASSISTANT_ID')
+TURTLE_ASSISTANT_ID = turtle_assistant_id
+
+escape_assistant_id = os.getenv('ESCAPE_ASSISTANT_ID')
+ESCAPE_ASSISTANT_ID = escape_assistant_id
+
+
+def gamestart(request):
+    if request.method =="POST":
+        if request.POST.get('action') == 'start' :    
+            thread_id, category = create_thread(request)
+            if category == 'turtle':
+                # 현재는 스레드값을 가져와서 파일을 만들기 때문에 파일 삭제를 위해서 작성
+                # cmd에서 icacls filename /grant %USERNAME%:F 실행해야 할 수 있음(권한 생성, 관리자모드로 실행해야 할 수도..)
+                # 근데 만약에 회원가입 구현한다면 회원별로 파일을 만들어야 할 것 같음
+                # 그래서 굳이 필요없을 것 같음 -> 탈퇴시 삭제(이러면 사용자들에게 권한을 주지 않아도 될 듯)
+                # turtle_thread_id = request.session.get('turtle_thread_id')
+                # print(turtle_thread_id)
+                # if turtle_thread_id :
+                #     old_file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', f'turtle{turtle_thread_id}.txt')
+                #     print(old_file_path)
+                #     if os.path.isfile(old_file_path):
+                #         os.remove(old_file_path)             
+                request.session['turtle_thread_id'] = thread_id
+                request.session['turtle'] = category
+
+            # threadsession = request.session.get('thread_id', 'cannot find thread id')
+            # categorysession = request.session.get('category', 'cannot find category')
+            # print(threadsession, categorysession)
+            # request.session.save()
+            # return render(request, "gamestart.html", {'thread_id': thread_id, 'category': category})
+            return redirect('turtlesoupgame')
+        elif request.POST.get('action') == 'continue' :
+            return redirect('turtlesoupgame')
+    else :
+        return render(request, "gamestart.html")
+
+def turtlesoupgame(request):
+    thread = request.session.get('turtle_thread_id', 'cannot find thread id')
+    category = request.session.get('turtle', 'cannot find category')
+
+    if request.method == "POST":
+        user_input = request.POST.get('user_input', '')
+        run = submit_message(TURTLE_ASSISTANT_ID, thread, user_input)
+        wait_on_run(run, thread)
+        return redirect('turtlesoupgame')
+    else :
+        thread_list = answer_print(get_response(thread))
+        return render(request, "turtlesoupgame.html", {'Data': thread_list})
 
 def gamepage(request):
     # thread_id = request.session.get('openai_thread_id');
@@ -35,7 +84,7 @@ def gamepage(request):
         # 여기서 user_input을 사용하여 필요한 작업 수행
         # ans = fopenaiAPI1.qna(user_input)
         # fopenaiAPI1.main(request.POST)
-        run = submit_message(TOUR_ASSISTANT_ID, thread, user_input)
+        run = submit_message(TURTLE_ASSISTANT_ID, thread, user_input)
         wait_on_run(run, thread)
 
         # thread_list = last_answer(get_response(thread)) 
@@ -49,6 +98,32 @@ def gamepage(request):
     
     # GET 요청일 때는 그냥 페이지를 렌더링
     return render(request, "GPTinput.html", {'Data': thread_list})
+
+def create_thread(request):
+    # if request.POST.get
+    user_input = request.POST.get('user_input')
+    print(user_input)
+    thread = client.beta.threads.create()
+    # request.session['game name'] = user_input
+    # request.session.save()
+    # thread_id = thread.id
+    # request.session['openai_thread_id'] = thread_id
+    # threadsession = request.session.get('openai_thread_id', 'cannot find thread id')
+    # print('Saved data', threadsession)
+    # print(thread_id)
+    # request.session['thread_id'] = thread.id
+    # request.session['category'] = user_input
+    # threadsession = request.session.get('thread_id', 'cannot find thread id')
+    # categorysession = request.session.get('category', 'cannot find category')
+    # print(threadsession, categorysession)
+    print(thread.id)
+    file_name = f'{user_input}{thread.id}.txt'
+    file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads',f'{file_name}.txt')
+    # file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'turtlesoupgame.txt')
+    with open(file_path, 'w') as file:
+        file.write(str(thread.id))
+    return thread.id, user_input
+
 
 def submit_message(assistant_id, thread, user_message):
     client.beta.threads.messages.create(
@@ -74,24 +149,15 @@ def wait_on_run(run, thread):
 def last_answer(messages) :
     for m in messages :
         pass
-    return m.content[0].text.value
+    return {'content': m.content[0].text.value, 'role': m.role}
 
 def answer_print(messages) :
     answer_list = []
     for m in messages :
-        answer_list.append(m.content[0].text.value)
+        print(m)
+        # 사용자의 입력과 시스템의 응답을 구분하기 위해 role을 추가하여 딕셔너리 형태 맵핑해서 저장
+        answer_list.append({'content': m.content[0].text.value, 'role': m.role})
     return answer_list
-
-def get_openai_response(request, user_input):
-    messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
-    messages.append(
-                {"role": "user", "content": str(user_input)},
-            )
-    # OpenAI의 API를 호출하여 사용자 입력에 대한 응답을 얻습니다.
-    chat = client.chat.completions.create(
-    model="gpt-4-1106-preview", messages=messages )
-    
-    return chat.choices[0].message.content
 
 def get_new_messages(request, user_input):
     file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'escapegame_test.txt')
@@ -138,8 +204,3 @@ def category(request):
     lst1 =['banana', 'apple', 'orange']
     context = {'Person1':'설렁탕', 'Person2':'비빔밥', 'Person3':'볶음우동'}
     return render(request, "category.html", context)
-
-def gamestart(request):
-    lst1 =['banana', 'apple', 'orange']
-    context = {'Person1':'설렁탕', 'Person2':'비빔밥', 'Person3':'볶음우동'}
-    return render(request, "gamestart.html", context)

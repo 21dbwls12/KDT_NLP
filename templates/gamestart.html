@@ -1,13 +1,116 @@
 {% extends 'project-base.html' %}
 {% block content %}
 {% load static %}
-    <div style="font-family: Yeongdeok_Sea; display: flex; width: 100vw; height: 100vh;" >
-        <img src="{% static 'startturtle.jpg' %}" alt="turtlesoupstart" class="page" style="object-fit: fill; opacity: 70%;">
-        <div style="position: fixed; right: 0; top: 0;">
-            <audio controls autoplay loop id="audio_player">
-                <source src = "{% static 'underthesea.wav' %}" type="audio/wav">
-            </audio>
-        </div>
-        <button style="position: absolute; bottom: 10%; left: 10%;">게임 시작</button>
+    <div style="position: fixed; right: 0; top: 0; z-index: 2;">
+        <audio controls autoplay loop id="audio_player">
+            <!-- <source src = "{% static 'underthesea.wav' %}" type="audio/wav"> -->
+        </audio>
+        <select id="audio_select" style="position: fixed; right: 0; margin-top: 3.5%;">
+            <option value=""></option>
+        </select>
     </div>
+    <div style="font-family: YeongdeokSea, YeongdeokSeaWoff; display: flex; width: 100vw; height: 100vh;" >
+        <img src="{% static 'startturtle.jpg' %}" alt="turtlesoupstart" class="page">
+        <form action="{% url 'gamestart' %}" method="post" id="startturtle">
+            {% csrf_token %}
+            <input type="hidden" name="user_input" value="turtle">
+            <!-- <input type="submit" value="게임 시작" class="turtlebutton" style="position: absolute; bottom: 10%; left: 10%; font-family: YeongdeokSea;"> -->
+            <button id="turtlebutton" type="submit" name="action" value="start" class="turtlebutton" style="position: absolute; bottom: 30%; left: 10%; font-family: YeongdeokSea;">
+                <img id="turtlebuttonwave" src="{% static 'wave.gif' %}" alt="wave for button" style="object-fit: crop; display: none;">
+                <span id="turtlebuttontext">게임 시작</span>
+            </button>
+            <button id="continueturtlebutton" type="submit" name="action" value="continue" class="turtlebutton" style="position: absolute; bottom: 10%; left: 10%; font-family: YeongdeokSea;">
+                <img id="continueturtlebuttonwave" src="{% static 'wave.gif' %}" alt="wave for button" style="object-fit: crop; display: none;">
+                <span id="turtlebuttontext">이어하기</span>
+            </button>
+        </form>
+
+        <div class="description">
+            <h1 style="text-align: center; color: aliceblue;">바다거북이 수프 게임</h1>
+            <br>
+            <h3 style="color: aliceblue;">주어진 문제에 질문을 하면 AI가 답을 줍니다.<br>그 답을 종합해서 스스로 답을 찾아가는 게임입니다.</h3>
+            <br>
+            <h3 style="color: aliceblue;">게임 방법</h3>
+            <div style="font-weight: 400; font-size: 1.1rem; color:aliceblue;">
+                <p>1. 시작하려면 '시작', '안녕'등의 문구를 입력해주세요.</p>
+                <p>2. AI가 문제를 보내줍니다.</p>
+                <p>3. 문제를 보고 질문을 하세요.</p>
+                <p>4. 질문에 대한 답으로 문제에 대한 정답을 추론하세요.</p>
+            </div>
+            <br>
+            <h3 style="color: aliceblue;">주의 사항</h3>
+            <div style="font-weight: 400; font-size: 1.1rem; color:aliceblue; display: flex; flex-direction: column; align-items: center;">
+                <div style="display: flex; flex-direction: row;">
+                    <a>👹</a>
+                    <div>로딩시간이 길어요. 한 번 응답을 보낸 후 로딩 중일때 한 번더 엔터를 치거나 전송버튼을 누르면 오류가 납니다. 천천히 기다려주세요. 만약 오류가 났다면 게임 선택 화면으로 돌아가 이어하기 버튼을 눌러주세요.</div>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <a>👹</a>
+                    <div>게임 시작 버튼을 누르면 모든 내용이 초기화 됩니다.</div>
+                    <!-- <p>3. 문제를 보고 질문을 하세요.</p> -->
+                    <!-- <p>4. 질문에 대한 답으로 문제에 대한 정답을 추론하세요.</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 오디오 파일의 URL을 배열에 추가합니다.
+        var escapeaudioFiles = [
+            {name: "Hide and Seek", path: "{% static 'escape/hideandseek_mr_orgelvr.wav' %}"},
+            {name: "Harry Potter", path: "{% static 'escape/harrypotter.wav' %}"},
+            {name: "Alice's Theme", path: "{% static 'escape/alicestheme.wav' %}"},
+        ];
+        var turtleaudioFiles = [
+            {name: "Binks' Brew", path: "{% static 'turtle/onepieceost.wav' %}"},
+            {name: "Under the sea", path: "{% static 'turtle/underthesea.wav' %}"},
+            {name: "Rolling Down to Old Maui", path: "{% static 'turtle/rollingdowntooldmaui.wav' %}"},
+        ];
+
+        window.onload = function() {
+            // 배열에서 랜덤으로 URL을 선택합니다.
+            var randomIndex = Math.floor(Math.random() * turtleaudioFiles.length);
+            var randomAudioFile = turtleaudioFiles[randomIndex];
+
+            // 오디오 플레이어의 source를 랜덤으로 선택한 URL로 설정합니다.
+            var audioPlayer = document.getElementById('audio_player');
+
+            // audioSelect.value = randomAudioFile.name;
+            audioPlayer.src = randomAudioFile.path;
+            // 오디오를 재생합니다.
+            audioPlayer.play();
+
+            var audioSelect = document.getElementById('audio_select');
+            
+            for (var i = 0; i < turtleaudioFiles.length; i++) {
+                var option = document.createElement('option');
+                option.value = turtleaudioFiles[i].path;
+                option.text = turtleaudioFiles[i].name;
+                audioSelect.appendChild(option);
+            }
+            
+            audioSelect.onchange = function() {
+                audioPlayer.src = audioSelect.value;
+                audioPlayer.play();
+            }
+
+            audioPlayer.volume = 0.1;
+        };
+
+        document.getElementById('turtlebutton').addEventListener('mouseover', function() {
+            document.getElementById('turtlebuttonwave').style.display = 'inline-block';
+        });
+
+        document.getElementById('turtlebutton').addEventListener('mouseout', function() {
+            document.getElementById('turtlebuttonwave').style.display = 'none';
+        });
+
+        document.getElementById('continueturtlebutton').addEventListener('mouseover', function() {
+            document.getElementById('continueturtlebuttonwave').style.display = 'inline-block';
+        });
+
+        document.getElementById('continueturtlebutton').addEventListener('mouseout', function() {
+            document.getElementById('continueturtlebuttonwave').style.display = 'none';
+        });
+    </script>    
 {% endblock content %}
