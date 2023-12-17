@@ -20,9 +20,8 @@ mysite.urls.py ->
             # path('getImage/', views.getImagepage, name='getImage'),
             # path('create_thread', views.create_thread, name='create_thread'),
             re_path(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
-
-    # 초기화면
-    path("", home)
+            # 초기화면
+            path("", home)
 
 Game.urls.py ->
 
