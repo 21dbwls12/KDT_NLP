@@ -42,16 +42,29 @@ def gamestart(request):
                 request.session['turtle_thread_id'] = thread_id
                 request.session['turtle'] = category
 
+                return redirect('turtlesoupgame')
+            
+            elif category == 'escape':
+                request.session['escape_thread_id'] = thread_id
+                request.session['escape'] = category
+            
+                return redirect('escapegame')
+
             # threadsession = request.session.get('thread_id', 'cannot find thread id')
             # categorysession = request.session.get('category', 'cannot find category')
             # print(threadsession, categorysession)
             # request.session.save()
             # return render(request, "gamestart.html", {'thread_id': thread_id, 'category': category})
-            return redirect('turtlesoupgame')
+            
         elif request.POST.get('action') == 'continue' :
-            return redirect('turtlesoupgame')
+            if request.POST.get('user_input') == 'turtle':
+                return redirect('turtlesoupgame')
+            elif request.POST.get('user_input') == 'escape':
+                return redirect('escapegame')
     else :
-        return render(request, "gamestart.html")
+        gamect = request.GET.get('game')
+        cate = {'gamect': gamect}
+        return render(request, "gamestart.html", cate)
 
 def turtlesoupgame(request):
     thread = request.session.get('turtle_thread_id', 'cannot find thread id')
@@ -65,6 +78,20 @@ def turtlesoupgame(request):
     else :
         thread_list = answer_print(get_response(thread))
         return render(request, "turtlesoupgame.html", {'Data': thread_list})
+
+def escapegame(request):
+    thread = request.session.get('escape_thread_id', 'cannot find thread id')
+    category = request.session.get('escape', 'cannot find category')
+
+    if request.method == "POST":
+        user_input = request.POST.get('user_input', '')
+        run = submit_message(ESCAPE_ASSISTANT_ID, thread, user_input)
+        wait_on_run(run, thread)
+        return redirect('escapegame')
+    else :
+        thread_list = answer_print(get_response(thread))
+        return render(request, "escapegame.html", {'Data': thread_list})
+
 
 def gamepage(request):
     # thread_id = request.session.get('openai_thread_id');
@@ -154,7 +181,6 @@ def last_answer(messages) :
 def answer_print(messages) :
     answer_list = []
     for m in messages :
-        print(m)
         # 사용자의 입력과 시스템의 응답을 구분하기 위해 role을 추가하여 딕셔너리 형태 맵핑해서 저장
         answer_list.append({'content': m.content[0].text.value, 'role': m.role})
     return answer_list
