@@ -26,7 +26,7 @@ ESCAPE_ASSISTANT_ID = escape_assistant_id
 def gamestart(request):
     if request.method =="POST":
         if request.POST.get('action') == 'start' :    
-            thread_id, category = create_thread(request)
+            thread_id, category, username = create_thread(request)
             if category == 'turtle':
                 # 현재는 스레드값을 가져와서 파일을 만들기 때문에 파일 삭제를 위해서 작성
                 # cmd에서 icacls filename /grant %USERNAME%:F 실행해야 할 수 있음(권한 생성, 관리자모드로 실행해야 할 수도..)
@@ -41,14 +41,14 @@ def gamestart(request):
                 #         os.remove(old_file_path)             
                 request.session['turtle_thread_id'] = thread_id
                 request.session['turtle'] = category
-                request.session['username'] = request.POST.get('username')
+                request.session['username'] = username
 
                 return redirect('turtlesoupgame')
             
             elif category == 'escape':
                 request.session['escape_thread_id'] = thread_id
                 request.session['escape'] = category
-                request.session['username'] = request.POST.get('username')
+                request.session['username'] = username
             
                 return redirect('escapegame')
 
@@ -95,7 +95,7 @@ def escapegame(request):
     file_name = file_name = f'{username}escape.txt'
     file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', f'{file_name}.txt')
     with open(file_path, 'r') as file:
-        thread = file.read()``
+        thread = file.read()
         file.close()
 
     if request.method == "POST":
@@ -165,7 +165,7 @@ def create_thread(request):
     # file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'turtlesoupgame.txt')
     with open(file_path, 'w') as file:
         file.write(str(thread.id))
-    return thread.id, user_input
+    return thread.id, user_input, username
 
 
 def submit_message(assistant_id, thread, user_message):
