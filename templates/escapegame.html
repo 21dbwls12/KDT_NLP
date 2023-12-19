@@ -20,7 +20,7 @@
         <div id="sidebar">
             <div class="sidebar-content">
                 <a href="/">메인페이지</a>
-                <a href="/game/?game=turtle">바다거북이 수프 게임</a>
+                <a href="/game/?game=turtle">바다거북 수프 게임</a>
                 <a href="/game/?game=escape">방탈출 게임</a>
             </div>
         </div>
@@ -48,7 +48,7 @@
         
             <form id="inputForm" method="post" action="{% url 'escapegame' %}" autocomplete="off" class="inputform" onsubmit="showLoading()">
                 {% csrf_token %}
-                <textarea name="user_input" id="user_input" rows="5" cols="100" required style="color: #260612; "></textarea>
+                <textarea name="user_input" id="user_input" rows="5" cols="100" required style="color: #260612; font-family: SKYBORI;"></textarea>
                 <button id="send_button" type="submit" style="all:unset; width: 5vw; height: 8.5vh; border-radius: 30%; position: relative; z-index: 2; left: -10%;">
                     <img src="{% static 'rabbitwhite.gif' %}" alt="send" style="scale: 35%; transform: translate(-115%, -160%); position: absolute;">
                 </button>

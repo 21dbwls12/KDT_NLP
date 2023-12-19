@@ -41,12 +41,14 @@ def gamestart(request):
                 #         os.remove(old_file_path)             
                 request.session['turtle_thread_id'] = thread_id
                 request.session['turtle'] = category
+                request.session['username'] = request.POST.get('username')
 
                 return redirect('turtlesoupgame')
             
             elif category == 'escape':
                 request.session['escape_thread_id'] = thread_id
                 request.session['escape'] = category
+                request.session['username'] = request.POST.get('username')
             
                 return redirect('escapegame')
 
@@ -57,6 +59,7 @@ def gamestart(request):
             # return render(request, "gamestart.html", {'thread_id': thread_id, 'category': category})
             
         elif request.POST.get('action') == 'continue' :
+            request.session['username'] = request.POST.get('username')
             if request.POST.get('user_input') == 'turtle':
                 return redirect('turtlesoupgame')
             elif request.POST.get('user_input') == 'escape':
@@ -67,8 +70,14 @@ def gamestart(request):
         return render(request, "gamestart.html", cate)
 
 def turtlesoupgame(request):
-    thread = request.session.get('turtle_thread_id', 'cannot find thread id')
-    category = request.session.get('turtle', 'cannot find category')
+    # thread = request.session.get('turtle_thread_id', 'cannot find thread id')
+    # category = request.session.get('turtle', 'cannot find category')
+    username = request.session.get('username', 'cannot find username')
+    file_name = file_name = f'{username}turtle.txt'
+    file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', f'{file_name}.txt')
+    with open(file_path, 'r') as file:
+        thread = file.read()
+        file.close()
 
     if request.method == "POST":
         user_input = request.POST.get('user_input', '')
@@ -78,10 +87,16 @@ def turtlesoupgame(request):
     else :
         thread_list = answer_print(get_response(thread))
         return render(request, "turtlesoupgame.html", {'Data': thread_list})
-
+    
 def escapegame(request):
-    thread = request.session.get('escape_thread_id', 'cannot find thread id')
-    category = request.session.get('escape', 'cannot find category')
+    # thread = request.session.get('escape_thread_id', 'cannot find thread id')
+    # category = request.session.get('escape', 'cannot find category')
+    username = request.session.get('username', 'cannot find username')
+    file_name = file_name = f'{username}escape.txt'
+    file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', f'{file_name}.txt')
+    with open(file_path, 'r') as file:
+        thread = file.read()``
+        file.close()
 
     if request.method == "POST":
         user_input = request.POST.get('user_input', '')
@@ -129,6 +144,7 @@ def gamepage(request):
 def create_thread(request):
     # if request.POST.get
     user_input = request.POST.get('user_input')
+    username = request.POST.get('username')
     print(user_input)
     thread = client.beta.threads.create()
     # request.session['game name'] = user_input
@@ -144,7 +160,7 @@ def create_thread(request):
     # categorysession = request.session.get('category', 'cannot find category')
     # print(threadsession, categorysession)
     print(thread.id)
-    file_name = f'{user_input}{thread.id}.txt'
+    file_name = f'{username}{user_input}.txt'
     file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads',f'{file_name}.txt')
     # file_path = os.path.join('C:\\Users\\yooji\\python_AI\\nlp_project\\django\\threads', 'turtlesoupgame.txt')
     with open(file_path, 'w') as file:
