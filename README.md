@@ -163,6 +163,8 @@ fun instructions(){
 
 <iframe width="736" height="391" src="https://www.youtube.com/embed/kjJ0cKcAH_c" title="인텔 인공지능 인재양성 서울 1기 - NLP프로젝트 2팀(자연사) 시연영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+[![인텔 인공지능 인재양성 서울 1기 - NLP프로젝트 2팀(자연사) 시연영상](https://www.youtube.com/watch?v=kjJ0cKcAH_c/0.jpg)](https://www.youtube.com/watch?v=kjJ0cKcAH_c)
+
 # 🫡 감사합니다. 
 ![zipolighter](https://github.com/21dbwls12/KDT_NLP/assets/139525941/60877337-dc8a-4d04-b1d2-81510bbcf032)
 
