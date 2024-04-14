@@ -161,7 +161,8 @@ fun instructions(){
 ![스샷13](https://github.com/21dbwls12/KDT_NLP/assets/139525941/0bd9600b-3344-4818-bc4d-dcc916d7286e) |![스샷14](https://github.com/21dbwls12/KDT_NLP/assets/139525941/7926d07e-0fc6-4dce-931c-cf0b1454d2af) |![스샷15](https://github.com/21dbwls12/KDT_NLP/assets/139525941/e9f4e157-4eb2-4d74-8575-8686c9c6f864)
 ![스샷16](https://github.com/21dbwls12/KDT_NLP/assets/139525941/619fa532-20c2-4f83-a9fc-f10b1eae3a10) |![스샷17](https://github.com/21dbwls12/KDT_NLP/assets/139525941/8cdf1845-459f-4ebe-8b95-bf01b97f9cc0)
 
-[시연 동영상 유튜브 링크](https://www.youtube.com/watch?v=kjJ0cKcAH_c)
+### [시연 영상](https://www.youtube.com/watch?v=kjJ0cKcAH_c)의 용량이 커서 링크로 올립니다.
+https://www.youtube.com/watch?v=kjJ0cKcAH_c
 
 # 🫡 감사합니다. 
 ![zipolighter](https://github.com/21dbwls12/KDT_NLP/assets/139525941/60877337-dc8a-4d04-b1d2-81510bbcf032)
