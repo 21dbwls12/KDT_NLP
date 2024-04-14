@@ -161,7 +161,7 @@ fun instructions(){
 ![스샷13](https://github.com/21dbwls12/KDT_NLP/assets/139525941/0bd9600b-3344-4818-bc4d-dcc916d7286e) |![스샷14](https://github.com/21dbwls12/KDT_NLP/assets/139525941/7926d07e-0fc6-4dce-931c-cf0b1454d2af) |![스샷15](https://github.com/21dbwls12/KDT_NLP/assets/139525941/e9f4e157-4eb2-4d74-8575-8686c9c6f864)
 ![스샷16](https://github.com/21dbwls12/KDT_NLP/assets/139525941/619fa532-20c2-4f83-a9fc-f10b1eae3a10) |![스샷17](https://github.com/21dbwls12/KDT_NLP/assets/139525941/8cdf1845-459f-4ebe-8b95-bf01b97f9cc0)
 
-{% include video id="kjJ0cKcAH_c" provider="youtube" %}
+<iframe width="736" height="391" src="https://www.youtube.com/embed/kjJ0cKcAH_c" title="인텔 인공지능 인재양성 서울 1기 - NLP프로젝트 2팀(자연사) 시연영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 # 🫡 감사합니다. 
 ![zipolighter](https://github.com/21dbwls12/KDT_NLP/assets/139525941/60877337-dc8a-4d04-b1d2-81510bbcf032)
