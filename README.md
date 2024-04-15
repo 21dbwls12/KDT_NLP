@@ -13,12 +13,12 @@ chatGPT를 이용하여 시각장애인과 청각장애인을 위한 게임의 �
 * 20231207 ~ 20231220
 
 ### 🧑‍🤝‍🧑 맴버구성
- - 팀장  : 여효진 - 팀장,PM,보고서, 발표,
- - 팀원1 : 손민희 - 인공지능(바다거북 수프 게임) 모델링 
- - 팀원2 : 박준호 - 인공지능(방탈출 게임) 모델링, TTS 구현
- - 팀원3 : 김정민 - web UI & UX 디자인
- - 팀원4 : 민형준 - 기획서(기능흐름도) 구성, 프로젝트 아이디어 제시
- - 팀원5 : 최유진 - 인공지능(방탈출 게임) 모델링, web UI & UX 디자인, 서버 연결 및 web 구현
+ - 팀장  : [여효진](https://github.com/penguinetongtong) - 팀장,PM,보고서, 발표,
+ - 팀원1 : [손민희](https://github.com/minibe0) - 인공지능(바다거북 수프 게임) 모델링 
+ - 팀원2 : [박준호](https://github.com/junnamu) - 인공지능(방탈출 게임) 모델링, TTS 구현
+ - 팀원3 : [김정민](https://github.com/Mingming222345) - web UI & UX 디자인
+ - 팀원4 : [민형준](https://github.com/xax219) - 기획서(기능흐름도) 구성, 프로젝트 아이디어 제시
+ - 팀원5 : [최유진](https://github.com/21dbwls12) - 인공지능(방탈출 게임) 모델링, web UI & UX 디자인, 서버 연결 및 web 구현
 
 ### ⚙️ 개발 환경
 - <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
