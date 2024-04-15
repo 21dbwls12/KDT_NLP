@@ -33,6 +33,10 @@ chatGPT를 이용하여 시각장애인과 청각장애인을 위한 게임의 �
 - 게임 모델응 이용하여 채팅으로 실시간 게임 진행
 #### 
 - 방탈출 게임 모델은 모든 시나리오를 직접 실시간 생성
+####
+- https://github.com/21dbwls12/natural_death
+  - Django서버에서 AWS서버로 이전
+  - 사용자 정보를 session에 저장하는 방식이 아닌 관리자의 컴퓨터 안에 저장, 코드 정리(해당 Repository에 Push하고 확인했으나 제대로 적용되지 않음)
 
 ![cutecat](https://github.com/21dbwls12/KDT_NLP/assets/139525941/764cb09a-5c09-4399-af19-0128d7e78edc) ![rabbitwhite](https://github.com/21dbwls12/KDT_NLP/assets/139525941/c417478b-bde4-4b09-8958-4a2bc72e5214)
 
